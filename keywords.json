@@ -1,0 +1,35 @@
+{
+    "primary_keywords": [
+    "MDR",
+    "IVDR",
+    "EUDAMED",
+    "FDA",
+    "UDI",
+    "MedTech",
+    "EasyUDI",
+    "medical device",
+    "dispositif médical",
+    "regulatory",
+    "réglementaire",
+    "compliance",
+    "conformité"
+  ],
+  "secondary_keywords": [
+    "notified body",
+    "organisme notifié",
+    "certification",
+    "label",
+    "étiquetage",
+    "technical documentation",
+    "documentation technique",
+    "clinical evaluation",
+    "évaluation clinique",
+    "post-market surveillance",
+    "vigilance"
+  ],
+  "negative_keywords": [
+    "job posting",
+    "careers",
+    "hiring"
+  ]
+}
