@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-# ai-generator
-=======
+
 # MadeInTracker AI Content Generator - POC
 
 🎯 **Proof of Concept** - AI-powered content generator for medical device compliance articles
@@ -8,54 +6,21 @@
 ## Overview
 
 This tool automatically generates brand-aligned content from medical device regulatory news:
-- ✍️ **Blog Articles** (800-1200 words, SEO-optimized, in French)
-- 📱 **LinkedIn Posts** (engaging, with hashtags)
-- 📧 **Email Campaigns** (subject, preview, HTML body)
-- 🎨 **AI-Generated Images** (with French text overlay, brand colors)
+- ✍️ **Blog Articles** 
+- 📱 **LinkedIn Posts** 
+- 📧 **Email Campaigns** 
+- 🎨 **AI-Generated Images**
 
-## Features
-
-✅ Free tier APIs (Groq + Pollinations.ai)  
-✅ RSS feed monitoring with relevance filtering  
-✅ EasyUDI brand voice and visual guidelines  
-✅ Beautiful HTML preview of all generated content  
-✅ Auto-saves all outputs (HTML, TXT, JSON, PNG)
 
 ## Quick Start
 
-### 1. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 2. Configure API Key
-
-Get a **free Groq API key**:
-1. Visit https://console.groq.com
-2. Sign up (free)
-3. Generate API key
-
-Create `.env` file:
-
-```bash
-cp .env.example .env
-```
-
-Edit `.env` and add your Groq API key:
-
-```
-GROQ_API_KEY=your_actual_groq_api_key_here
-RSS_FEEDS=https://medtecheurope.org/feed/,https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/medical-devices/rss.xml
-```
-
-### 3. Run the Generator
+### Run the Generator
 
 ```bash
 python main.py
 ```
 
-The script will:
+The project will:
 1. 📰 Collect articles from RSS feeds
 2. 🔍 Filter for medical device compliance topics
 3. ✍️ Generate blog article, LinkedIn post, and email
@@ -131,11 +96,9 @@ python src/image_gen/image_generator.py
 
 ### "HF_TOKEN missing"
 - Make sure `.env` file exists with `HF_TOKEN=...`
-- Use the token provided in the project discussion.
 
 ### "Groq API key required"
 - Make sure `.env` file exists with `GROQ_API_KEY=...`
-- Get free key at https://console.groq.com
 
 ### "No articles collected"
 - Check RSS feed URLs are valid
@@ -151,36 +114,6 @@ python src/image_gen/image_generator.py
 - Wait a minute and retry.
 - Check that your `HF_TOKEN` is valid.
 
-## Next Steps (Full Implementation)
-
-After POC validation, these features can be added:
-- ✨ Web scraping for competitor blogs
-- ⏰ Daily automation scheduler
-- 🚀 Publishing integrations (WordPress, LinkedIn API, email platforms)
-- 📊 Analytics and A/B testing
-- 🌐 Multi-language support
-- 🔄 Content versioning and editing workflow
-
-## Project Structure
-
-```
-pmsmp - madeintracker/
-├── main.py                      # Main pipeline
-├── requirements.txt             # Dependencies
-├── .env.example                 # Config template
-├── keywords.json                # Keyword filtering
-├── src/
-│   ├── collectors/
-│   │   ├── rss_collector.py     # RSS feed parser
-│   │   └── content_filter.py    # Relevance filtering
-│   ├── generators/
-│   │   ├── content_generator.py # AI content generation
-│   │   └── prompt_templates.py  # LLM prompts
-│   └── image_gen/
-│       └── image_generator.py   # AI image generation
-└── generated_content/           # Output directory
-```
-
 ## License
 
 This is a proof-of-concept for PMSMP evaluation.
@@ -192,7 +125,3 @@ For questions or issues during the PMSMP:
 - Company: MadeInTracker
 - Email: akr.lahmar@gmail.com
 
----
-
-**Made with ❤️ for EasyUDI by MadeInTracker**
->>>>>>> 1df6fea (chore: initialize repository and project structure)
