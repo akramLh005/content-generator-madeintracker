@@ -2,7 +2,7 @@ import json
 from groq import Groq
 from ..core.models import Article, EmailCampaign
 from ..core.config import TASK_SETTINGS, settings
-from ..core.prompts import get_blog_prompt, get_linkedin_prompt, get_email_prompt, get_vision_prompt, IMAGE_SPECIALIST_PROMPT
+from ..core.prompts import get_blog_prompt, get_linkedin_prompt, get_email_prompt, get_image_prompt, SYSTEM_PROMPT, IMAGE_SYSTEM_PROMPT
 from ..core.utils import setup_logging, clean_json_string, extract_json_fallback
 
 logger = setup_logging(__name__)
@@ -42,8 +42,7 @@ class ContentGenerator:
         return EmailCampaign(**data)
 
     def generate_image_prompt(self, title: str, summary: str) -> str:
-        prompt = get_vision_prompt(title, summary)
-        # Use a lower temperature for consistent visual descriptions
+        prompt = get_image_prompt(title, summary)
         return self._call_llm_vision(prompt)
 
     def _call_llm_vision(self, prompt: str) -> str:
@@ -51,7 +50,7 @@ class ContentGenerator:
             response = self.client.chat.completions.create(
                 model=self.model,
                 messages=[
-                    {"role": "system", "content": IMAGE_SPECIALIST_PROMPT},
+                    {"role": "system", "content": IMAGE_SYSTEM_PROMPT},
                     {"role": "user", "content": prompt}
                 ],
                 temperature=0.7,
@@ -67,7 +66,7 @@ class ContentGenerator:
             response = self.client.chat.completions.create(
                 model=self.model,
                 messages=[
-                    {"role": "system", "content": "You are an expert medical regulatory content writer."},
+                    {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": prompt}
                 ],
                 temperature=cfg["temperature"],

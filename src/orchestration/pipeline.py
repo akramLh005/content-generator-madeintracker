@@ -7,11 +7,10 @@ from typing import Optional
 import random
 from ..core.config import settings
 from ..core.models import Article, GeneratedContent
-from ..core.prompts import get_vision_prompt
+from ..core.prompts import get_image_prompt
 from ..core.utils import setup_logging
 from ..collectors.rss import RSSCollector
 from ..collectors.scraper import WebScraper
-from ..core.relevance import RelevanceFilter
 from ..generators.content import ContentGenerator
 from ..generators.image import ImageGenerator
 
@@ -21,7 +20,6 @@ class ContentPipeline:
     def __init__(self):
         self.rss_collector = RSSCollector(settings.rss_feeds_list)
         self.web_scraper = WebScraper(settings.competitor_urls)
-        self.filter = RelevanceFilter()
         self.content_gen = ContentGenerator()
         self.image_gen = ImageGenerator()
         self.output_dir = Path(settings.output_dir)
@@ -37,25 +35,20 @@ class ContentPipeline:
             logger.error("No articles collected from any source.")
             return None
 
-        relevant = self.filter.score_articles(articles, min_score=settings.min_relevance_score)
-        if not relevant:
-            logger.error("No relevant articles found.")
-            return None
-        
-        # Deduplicate by title to ensure variety in random selection
-        unique_relevant = []
+        # Deduplicate all collected articles by title
+        unique_articles = []
         seen_titles = set()
-        for art in relevant:
+        for art in articles:
             normalized_title = art.title.strip().lower()
             if normalized_title not in seen_titles:
-                unique_relevant.append(art)
+                unique_articles.append(art)
                 seen_titles.add(normalized_title)
         
-        logger.info(f"Unique relevant articles ({len(unique_relevant)}): {[a.title[:50] + '...' for a in unique_relevant]}")
+        logger.info(f"Unique articles collected ({len(unique_articles)}): {[a.title[:50] + '...' for a in unique_articles]}")
         
-        # Select a random article from the unique relevant list
-        top = random.choice(unique_relevant)
-        logger.info(f"Randomly selected: {top.title} (Score: {top.relevance_score})")
+        # Select a random article from the full pool
+        top = random.choice(unique_articles)
+        logger.info(f"Randomly selected: {top.title}")
         
         blog_html = self.content_gen.generate_blog(top)
         linkedin = self.content_gen.generate_linkedin(top.title, top.description, str(top.url))
