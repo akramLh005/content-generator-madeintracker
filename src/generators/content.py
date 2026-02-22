@@ -10,7 +10,7 @@ logger = setup_logging(__name__)
 class ContentGenerator:
     def __init__(self, api_key: str = settings.groq_api_key):
         self.client = Groq(api_key=api_key)
-        self.model = "llama-3.3-70b-versatile"
+        self.model = "openai/gpt-oss-120b"
 
     def generate_blog(self, article: Article) -> str:
         prompt = get_blog_prompt(article)
