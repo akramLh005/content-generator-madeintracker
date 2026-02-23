@@ -77,7 +77,7 @@ class ContentGenerator:
 
             if "gpt-oss" in self.model.lower():
                 kwargs["max_completion_tokens"] = cfg["max_tokens"]
-                kwargs["reasoning_effort"] = "medium"
+                kwargs["reasoning_effort"] = "low"
                 # If we use reasoning, some models might fail if response_format is also set 
                 # or if the prompt doesn't strictly follow JSON rules.
                 # However, the user request used it via console. 

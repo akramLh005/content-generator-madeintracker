@@ -104,35 +104,34 @@ def get_linkedin_prompt(title: str, summary: str, url: str) -> str:
     return f"""{BRAND_VOICE}
 
 TASK:
-Write an engaging LinkedIn post to promote a new blog article published on the
-EasyUDI blog. Optimize for reach and engagement on the LinkedIn platform.
+Write a high-engagement LinkedIn post promoting a new EasyUDI blog article.
+Optimize for reach, clarity, and professional impact.
 
-BLOG ARTICLE TO PROMOTE:
-- Title: {title}
-- Summary: {summary}
-- URL: {url}
+ARTICLE:
+Title: {title}
+Summary: {summary}
+URL: {url}
 
-POST STRUCTURE (follow this formula):
-1. **Hook** (line 1-2): A bold opening statement, provocative question, or
-   surprising insight. This line determines whether people click "see more" —
-   make it impossible to scroll past.
-2. **Context** (3-5 lines): Briefly explain the news or topic. What happened?
-   Why should the reader care?
-3. **Key Insight** (2-3 lines): Share one practical takeaway or expert opinion.
-4. **CTA** (1-2 lines): Drive action — invite to read the full article, comment,
-   or share their experience.
-5. **Hashtags**: Include 5-7 relevant hashtags on the last line.
+STRUCTURE:
+1. Hook (1–2 lines): Strong opening statement or question that stops scrolling.
+2. Context (3–5 lines): Explain what’s new and why it matters.
+3. Key insight (2–3 lines): One practical takeaway or expert perspective.
+4. CTA (1–2 lines): Invite readers to read, comment, or share.
+5. Hashtags: 5–7 total, placed on the final line.
 
-FORMAT RULES:
-- Language: French.
-- Length: 150-250 words.
-- Use line breaks between sections for readability (LinkedIn rewards whitespace).
-- Use 2-3 emojis MAX — strategically placed, not decorative.
-- Mandatory hashtags: #MDR #IVDR #EUDAMED #MedicalDevices #EasyUDI
-  (add 2-3 topic-specific ones).
-- Professional yet approachable tone.
+RULES (STRICT):
+- Language: French
+- Length: 150–250 words
+- Use short paragraphs with line breaks (LinkedIn style)
+- Use MAX 3 emojis, only if relevant
+- Mandatory hashtags: #MDR #IVDR #EUDAMED #MedicalDevices #EasyUDI (+2–3 specific)
+- Tone: Professional, clear, confident
+- ABSOLUTELY NO markdown formatting
+- NEVER use **bold**, asterisks, or styled text — LinkedIn does NOT support it
+- Output must be plain text only
 
-OUTPUT: Return ONLY the post text. No surrounding quotes, no markdown.
+OUTPUT:
+Return ONLY the final post text.
 """
 
 
@@ -177,29 +176,36 @@ Return ONLY the JSON. No code fences, no commentary.
 # ---------------------------------------------------------------------------
 
 def get_image_prompt(title: str, summary: str) -> str:
-    """Build a contextual user-message for the IMAGE_SYSTEM_PROMPT.
-
-    Extracts the article's core theme and feeds it to the LLM so the
-    generated image prompt is unique and relevant to the specific article,
-    not a generic medical-device illustration.
-    """
     return f"""ARTICLE CONTEXT:
-- Title: {title}
-- Summary: {summary}
+Title: {title}
+Summary: {summary}
 
-INSTRUCTIONS:
-Based on the article context above, generate ONE detailed image-generation
-prompt for a professional infographic illustration that visually captures the
-core theme of this specific article.
+TASK:
+Write ONE single image-generation prompt for a professional 1:1 infographic illustration that visually communicates the specific theme of this article.
 
-Your prompt must:
-1. Identify the article's main concept (e.g., new regulation deadline, EUDAMED
-   update, UDI compliance change) and translate it into a visual metaphor.
-2. Describe specific objects, icons, and compositional layout relevant to THIS
-   article — not generic medical imagery.
-3. Specify the flat-vector / isometric infographic style, the navy-blue-gold
-   color palette, and the square 1:1 format.
-4. Explicitly state: "No text, words, letters, numbers, or captions in the image."
+NON-NEGOTIABLE CONSTRAINTS (MUST FOLLOW):
+1) ABSOLUTELY NO TEXT IN THE IMAGE.
+   - The image must contain ZERO: words, letters, numbers, labels, captions, UI text, watermarks, logos with lettering, icons containing characters, signs, documents with visible writing, QR codes, barcodes, serial numbers, or “placeholder” text.
+   - Do NOT include: “text overlays”, “labels”, “headlines”, “callouts”, “annotations”, “form fields”, “screens with writing”, or “poster/sign” elements.
+   - If any object normally includes text (forms, screens, certificates, packaging, labels), render it as blank shapes with no glyphs.
 
-OUTPUT: Return ONLY the image-generation prompt. Nothing else.
+2) SELF-CHECK BEFORE FINALIZING:
+   - Re-read your prompt and remove any instruction that could lead to text appearing in the image.
+   - If you accidentally wrote any text-related instruction, replace it with a clear, correctly spelled sentence stating:
+     "No text, words, letters, numbers, or captions anywhere in the image."
+
+STYLE & BRAND:
+- Style: flat-vector or isometric infographic (clean, modern, professional).
+- Palette: navy blue + gold accents + white background (high contrast, minimal).
+- Composition: clear hierarchy, balanced spacing, 1–3 focal elements plus supporting icons.
+
+CONTENT REQUIREMENTS:
+- Identify the article’s main concept (e.g., deadline, EUDAMED update, UDI rule change, compliance workflow).
+- Translate it into a concrete visual metaphor specific to THIS article (not generic medical imagery).
+- Specify exact objects/icons/layout that match the article (e.g., database node for EUDAMED, supply chain/packaging for UDI, checklist/workflow for compliance, timeline for deadlines).
+
+OUTPUT RULES (STRICT):
+- Return ONE prompt only.
+- Plain text only.
+- No bullet lists, no numbering, no extra commentary.
 """

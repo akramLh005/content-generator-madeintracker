@@ -38,9 +38,9 @@ class Settings(BaseSettings):
 
 # Default LLM settings for tasks
 TASK_SETTINGS = {
-    "blog": {"temperature": 0.7, "max_tokens": 4000, "response_format": "text"},
-    "linkedin": {"temperature": 0.7, "max_tokens": 3000, "response_format": "text"},
-    "email": {"temperature": 1.0, "max_tokens": 4000, "response_format": "json_object"}
+    "blog": {"temperature": 0.3, "max_tokens": 4000, "response_format": "text"},
+    "linkedin": {"temperature": 0.3, "max_tokens": 3000, "response_format": "text"},
+    "email": {"temperature": 0.3, "max_tokens": 4000, "response_format": "json_object"}
 }
 
 settings = Settings()
