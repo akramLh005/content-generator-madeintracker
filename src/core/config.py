@@ -12,8 +12,6 @@ class Settings(BaseSettings):
         {"url": "https://medtecheurope.org/feed/", "type": "rss"},
         {"url": "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/medwatch/rss.xml", "type": "rss"},
         {"url": "https://www.medtechdive.com/", "type": "scraper"},
-        {"url": "https://www.p36.io/newsroom/", "type": "scraper"},
-        {"url": "https://www.massdevice.com/", "type": "scraper"},
         {"url": "https://www.emergobyul.com/news", "type": "scraper"},
         {"url": "https://www.qualitiso.com/articles/", "type": "scraper"},
         {"url": "https://www.tracekey.com/knowledge-base/", "type": "scraper"},
@@ -22,8 +20,6 @@ class Settings(BaseSettings):
         {"url": "https://www.ackomas.com/", "type": "scraper"},
         {"url": "https://www.veeva.com/medtech/resources/", "type": "scraper"},
         {"url": "https://www.obelis.net/news/", "type": "scraper"},
-        {"url": "https://www.dmexperts.fr/en/medical-devices-news/", "type": "scraper"},
-        {"url": "https://eudamed.com/news", "type": "scraper"}
     ]
     output_dir: str = "./generated_content"
     min_relevance_score: float = 0.3
