@@ -49,6 +49,37 @@ The project will:
 5. 💾 Save everything to `generated_content/TIMESTAMP/`
 6. 🌐 Open preview in your browser
 
+## Scheduling Daily Generation
+
+You can schedule the generator to run automatically every day at a specific time using the built-in scheduler.
+
+### Using the built-in scheduler
+
+Run the following command to start the scheduler:
+
+```bash
+# Run daily at 09:00 (default)
+python main.py --schedule
+
+# Run daily at a custom time (e.g., 14:30)
+python main.py --schedule --time 14:30
+```
+
+> [!NOTE]
+> When running with `--schedule`, the tool will perform an immediate initial run, then remain active and run again every day at the specified time.
+
+### Windows Task Scheduler (Recommended)
+
+For a more robust setup on Windows (where the task runs even if you aren't manually keeping a terminal open), you can use the **Windows Task Scheduler**:
+
+1. Open **Task Scheduler**.
+2. Click **Create Basic Task...**.
+3. Set the trigger to **Daily** and choose your time.
+4. Action: **Start a program**.
+5. Program/script: Path to your `python.exe` (inside the `venv`).
+6. Add arguments: `main.py`.
+7. Start in: The full path to your project folder.
+
 ## Output Structure
 
 ```
