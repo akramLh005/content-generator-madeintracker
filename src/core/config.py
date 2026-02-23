@@ -8,37 +8,39 @@ load_dotenv()
 class Settings(BaseSettings):
     groq_api_key: str
     hf_token: Optional[str] = None
-    rss_feeds: str = "https://medtecheurope.org/feed/,https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/medwatch/rss.xml"
+    content_sources: List[Dict[str, str]] = [
+        {"url": "https://medtecheurope.org/feed/", "type": "rss"},
+        {"url": "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/medwatch/rss.xml", "type": "rss"},
+        {"url": "https://www.medtechdive.com/", "type": "scraper"},
+        {"url": "https://www.p36.io/newsroom/", "type": "scraper"},
+        {"url": "https://www.massdevice.com/", "type": "scraper"},
+        {"url": "https://www.emergobyul.com/news", "type": "scraper"},
+        {"url": "https://www.qualitiso.com/articles/", "type": "scraper"},
+        {"url": "https://www.tracekey.com/knowledge-base/", "type": "scraper"},
+        {"url": "https://www.rimsys.io/blog", "type": "scraper"},
+        {"url": "https://www.innovit.com/insights", "type": "scraper"},
+        {"url": "https://www.ackomas.com/", "type": "scraper"},
+        {"url": "https://www.veeva.com/medtech/resources/", "type": "scraper"},
+        {"url": "https://www.obelis.net/news/", "type": "scraper"},
+        {"url": "https://www.dmexperts.fr/en/medical-devices-news/", "type": "scraper"},
+        {"url": "https://eudamed.com/news", "type": "scraper"}
+    ]
     output_dir: str = "./generated_content"
     min_relevance_score: float = 0.3
-    
+    groq_model: str = "openai/gpt-oss-120b"
+    hf_image_model: str = "black-forest-labs/FLUX.1-schnell"
+
     model_config = SettingsConfigDict(env_file='.env', env_file_encoding='utf-8', extra='ignore')
 
     @property
-    def rss_feeds_list(self) -> List[str]:
-        return [f.strip() for f in self.rss_feeds.split(',') if f.strip()]
-
-    competitor_urls: List[str] = [
-        "https://www.medtechdive.com/",
-        "https://www.p36.io/newsroom/",
-        "https://www.massdevice.com/",
-        "https://www.emergobyul.com/news",
-        "https://www.qualitiso.com/articles/",
-        "https://www.tracekey.com/knowledge-base/",
-        "https://www.rimsys.io/blog",
-        "https://www.innovit.com/insights",
-        "https://www.ackomas.com/",
-        "https://www.veeva.com/medtech/resources/",
-        "https://www.obelis.net/news/",
-        "https://www.dmexperts.fr/en/medical-devices-news/",
-        "https://eudamed.com/news"
-    ]
+    def hf_api_url(self) -> str:
+        return f"https://router.huggingface.co/hf-inference/models/{self.hf_image_model}"
 
 # Default LLM settings for tasks
 TASK_SETTINGS = {
     "blog": {"temperature": 0.7, "max_tokens": 4000, "response_format": "text"},
     "linkedin": {"temperature": 0.7, "max_tokens": 3000, "response_format": "text"},
-    "email": {"temperature": 0.2, "max_tokens": 2000, "response_format": "json_object"}
+    "email": {"temperature": 1.0, "max_tokens": 4000, "response_format": "json_object"}
 }
 
 settings = Settings()

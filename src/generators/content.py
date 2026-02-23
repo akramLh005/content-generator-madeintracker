@@ -10,7 +10,7 @@ logger = setup_logging(__name__)
 class ContentGenerator:
     def __init__(self, api_key: str = settings.groq_api_key):
         self.client = Groq(api_key=api_key)
-        self.model = "openai/gpt-oss-120b"
+        self.model = settings.groq_model
 
     def generate_blog(self, article: Article) -> str:
         prompt = get_blog_prompt(article)
@@ -63,16 +63,39 @@ class ContentGenerator:
 
     def _call_llm(self, prompt: str, cfg: dict) -> str:
         try:
-            response = self.client.chat.completions.create(
-                model=self.model,
-                messages=[
+            # Reasoning models like gpt-oss-120b often prefer max_completion_tokens 
+            # and might not support response_format="json_object" simultaneously with reasoning.
+            # We'll adapt based on the model name.
+            kwargs = {
+                "model": self.model,
+                "messages": [
                     {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": prompt}
                 ],
-                temperature=cfg["temperature"],
-                max_tokens=cfg["max_tokens"],
-                response_format={"type": "json_object"} if cfg["response_format"] == "json_object" else None
-            )
+                "temperature": cfg["temperature"],
+            }
+
+            if "gpt-oss" in self.model.lower():
+                kwargs["max_completion_tokens"] = cfg["max_tokens"]
+                kwargs["reasoning_effort"] = "medium"
+                # If we use reasoning, some models might fail if response_format is also set 
+                # or if the prompt doesn't strictly follow JSON rules.
+                # However, the user request used it via console. 
+                # Groq documentation says for JSON mode, the word "json" MUST be in the prompt.
+            else:
+                kwargs["max_tokens"] = cfg["max_tokens"]
+            
+            if cfg.get("response_format") == "json_object":
+                # Ensure "json" is in the prompt if we use response_format
+                if "json" not in prompt.lower() and "json" not in SYSTEM_PROMPT.lower():
+                    prompt += "\nReturn output in valid JSON format."
+                
+                # Reasoning models like gpt-oss often fail Groq's strict JSON validation 
+                # even when outputting valid JSON. We bypass strict mode for them.
+                if "gpt-oss" not in self.model.lower():
+                    kwargs["response_format"] = {"type": "json_object"}
+
+            response = self.client.chat.completions.create(**kwargs)
             return response.choices[0].message.content or ""
         except Exception as e:
             logger.error(f"LLM call failed: {e}")

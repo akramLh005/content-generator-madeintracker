@@ -38,7 +38,8 @@ SYSTEM_PROMPT = (
     "expertise in EU MDR/IVDR, EUDAMED, UDI systems, and FDA regulations. "
     "You write in French for a professional European audience. Your content is "
     "factually precise, strategically structured for SEO, and reflects the "
-    "EasyUDI brand voice: accessible, expert, and reassuring."
+    "EasyUDI brand voice: accessible, expert, and reassuring. "
+    "If a JSON response is requested, you MUST return ONLY valid JSON."
 )
 
 IMAGE_SYSTEM_PROMPT = """You are an expert visual prompt engineer specializing in professional infographic design for the medical device regulatory industry. Your sole job is to craft a single, detailed image-generation prompt (for DALL-E 3 / Stable Diffusion / FLUX) that will produce a high-quality infographic illustration.

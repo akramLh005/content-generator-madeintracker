@@ -11,8 +11,7 @@ logger = setup_logging(__name__)
 class ImageGenerator:
     def __init__(self, hf_token: Optional[str] = settings.hf_token):
         self.hf_token = hf_token
-        self.model_id = "black-forest-labs/FLUX.1-schnell"
-        self.api_url = f"https://router.huggingface.co/hf-inference/models/{self.model_id}"
+        self.api_url = settings.hf_api_url
 
     def generate(self, prompt: str, output_path: str) -> Optional[str]:
         if not self.hf_token:

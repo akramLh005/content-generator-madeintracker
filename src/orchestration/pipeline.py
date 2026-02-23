@@ -18,8 +18,11 @@ logger = setup_logging(__name__)
 
 class ContentPipeline:
     def __init__(self):
-        self.rss_collector = RSSCollector(settings.rss_feeds_list)
-        self.web_scraper = WebScraper(settings.competitor_urls)
+        rss_urls = [s["url"] for s in settings.content_sources if s["type"] == "rss"]
+        scraper_urls = [s["url"] for s in settings.content_sources if s["type"] == "scraper"]
+        
+        self.rss_collector = RSSCollector(rss_urls)
+        self.web_scraper = WebScraper(scraper_urls)
         self.content_gen = ContentGenerator()
         self.image_gen = ImageGenerator()
         self.output_dir = Path(settings.output_dir)
