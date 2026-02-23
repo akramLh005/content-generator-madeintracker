@@ -1,6 +1,8 @@
 
 # MadeInTracker AI Content Generator - POC
 
+![Workflow Diagram](workflow_diagram.PNG)
+
 🎯 **Proof of Concept** - AI-powered content generator for medical device compliance articles
 
 ## Overview
