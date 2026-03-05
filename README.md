@@ -15,23 +15,43 @@ This tool automatically generates brand-aligned content from medical device regu
 
 ## Installation & Setup
 
+> **Python 3.10 or newer is required.**  
+> All dependencies use pre-built binary wheels — no C compiler or system libraries needed.
+
+### Option A — One-click setup scripts (recommended)
+
+**Windows:**
+```bash
+setup.bat
+```
+
+**macOS / Linux:**
+```bash
+chmod +x setup.sh && ./setup.sh
+```
+
+The script will automatically create a virtual environment, activate it, and install all dependencies.
+
+### Option B — Manual setup
+
 1. **Create a virtual environment**:
    ```bash
-   python -m venv venv
+   python -m venv .venv
    ```
 
 2. **Activate the virtual environment**:
    - **Windows**:
      ```bash
-     .\venv\Scripts\activate
+     .venv\Scripts\activate
      ```
    - **macOS/Linux**:
      ```bash
-     source venv/bin/activate
+     source .venv/bin/activate
      ```
 
 3. **Install dependencies**:
    ```bash
+   pip install --upgrade pip
    pip install -r requirements.txt
    ```
 
