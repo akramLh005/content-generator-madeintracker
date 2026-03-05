@@ -21,17 +21,17 @@ def clean_json_string(json_str: str) -> str:
     return json_str.strip()
 
 def get_font(size: int = 48) -> ImageFont.FreeTypeFont:
-    paths = [
-        "C:/Windows/Fonts/arial.ttf",
-        "C:/Windows/Fonts/calibri.ttf",
-        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
-    ]
-    for path in paths:
-        if os.path.exists(path):
-            try:
-                return ImageFont.truetype(path, size)
-            except Exception:
-                continue
+    root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    font_path = os.path.join(root_dir, "assets", "fonts", "Roboto-Bold.ttf")
+    
+    try:
+        if os.path.exists(font_path):
+            return ImageFont.truetype(font_path, size)
+        else:
+            logger.warning(f"Font file not found at {font_path}. Using default font.")
+    except Exception as e:
+        logger.warning(f"Failed to load font from {font_path}: {e}. Using default font.")
+
     return ImageFont.load_default()
 
 def extract_json_fallback(text: str) -> Optional[dict]:
